@@ -1,1 +1,1 @@
-# homebred-scripts
+# homebrew-scripts
