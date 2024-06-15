@@ -1,9 +1,9 @@
 class ExtractAudio < Formula
     desc "A script to extract audio from media files"
     homepage "https://github.com/cajias/v2a"
-    url "https://github.com/cajias/v2a/archive/v1.0.1.tar.gz"
-    sha256 "fb743b8f73e25aeb3321df70c716b82b35fc4c6301c076328dc9655de455b33a"
-    version "1.0.1"
+    url "https://github.com/cajias/v2a/archive/v1.0.2.tar.gz"
+    sha256 "ac70e1310ada6bd3ca4b065905f71444e6aedf1b59fa06565412953ab855d769"
+    version "1.0.2"
   
     depends_on "ffmpeg"
     depends_on "python"
