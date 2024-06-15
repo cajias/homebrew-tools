@@ -9,7 +9,7 @@ class ExtractAudio < Formula
     depends_on "python"
   
     def install
-      bin.install "convert_to_mp3.py"
+      bin.install "extract_audio.py"
     end
   
     def post_install
