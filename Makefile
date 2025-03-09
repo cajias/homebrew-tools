@@ -1,37 +1,59 @@
 # Variables
-SCRIPT_NAME = convert_to_mp3.py
-REPO_NAME = homebrew-scripts
-VERSION = 1.0.0
-TAR_FILE = v$(VERSION).tar.gz
-HOMEBREW_FORMULA = convert-to-mp3.rb
-HOMEBREW_TAP = yourusername/$(REPO_NAME)
-GITHUB_USER = yourusername
-GITHUB_REPO = $(REPO_NAME)
+SHELL_SETTINGS_VERSION = 1.0.0
+SHELL_SETTINGS_FORMULA = shell-settings.rb
+EXTRACT_AUDIO_FORMULA = extract-audio.rb
 
-.PHONY: all release clean
+TAP_NAME = homebrew-tools
+GITHUB_USER = cajias
+GITHUB_SHELL_REPO = zi
 
-all: release
+.PHONY: all shell-settings extract-audio clean
 
-# Create a tarball of the script
-$(TAR_FILE): $(SCRIPT_NAME)
-	tar -czvf $(TAR_FILE) $(SCRIPT_NAME)
+all: shell-settings extract-audio
 
-# Create a GitHub release and upload the tarball
-release: $(TAR_FILE)
-	# Create GitHub release
-	gh release create v$(VERSION) $(TAR_FILE) --title "v$(VERSION)" --notes "Release version $(VERSION)"
-	# Get the SHA-256 checksum of the tarball
-	SHA256=$$(shasum -a 256 $(TAR_FILE) | awk '{ print $$1 }')
-	# Update Homebrew formula
-	sed -i '' "s|url \".*\"|url \"https://github.com/$(GITHUB_USER)/$(GITHUB_REPO)/archive/refs/tags/v$(VERSION).tar.gz\"|" $(HOMEBREW_FORMULA)
-	sed -i '' "s|sha256 \".*\"|sha256 \"$$SHA256\"|" $(HOMEBREW_FORMULA)
-	# Commit and push the updated formula
-	git add $(HOMEBREW_FORMULA)
-	git commit -m "Update Homebrew formula for v$(VERSION)"
-	git push origin main
-	# Publish the updated formula to Homebrew tap
-	brew tap $(HOMEBREW_TAP)
-	brew install $(HOMEBREW_TAP)/convert-to-mp3
+# Update the shell-settings formula with the latest release
+shell-settings:
+	@echo "Updating shell-settings formula..."
+	@echo "You must first create a release of your shell settings repository:"
+	@echo "1. In your shell settings repo ($(GITHUB_USER)/$(GITHUB_SHELL_REPO)):"
+	@echo "   git tag -a v$(SHELL_SETTINGS_VERSION) -m \"Release version $(SHELL_SETTINGS_VERSION)\""
+	@echo "   git push origin v$(SHELL_SETTINGS_VERSION)"
+	@echo "2. Create a release on GitHub for tag v$(SHELL_SETTINGS_VERSION)"
+	@echo "3. Download the tarball and calculate the SHA256:"
+	@echo "   curl -sL https://github.com/$(GITHUB_USER)/$(GITHUB_SHELL_REPO)/archive/refs/tags/v$(SHELL_SETTINGS_VERSION).tar.gz | shasum -a 256"
+	@echo "4. Update the formula with the SHA256:"
+	@echo "   sed -i '' \"s|sha256 \\\"PLACEHOLDER_SHA256\\\"|sha256 \\\"YOUR_SHA256_HERE\\\"|\" $(SHELL_SETTINGS_FORMULA)"
+	@echo "5. Commit and push the updated formula:"
+	@echo "   git add $(SHELL_SETTINGS_FORMULA)"
+	@echo "   git commit -m \"Update shell-settings formula to v$(SHELL_SETTINGS_VERSION)\""
+	@echo "   git push origin main"
+	@echo ""
+	@echo "Once published, users can install it with:"
+	@echo "brew tap $(GITHUB_USER)/$(TAP_NAME)"
+	@echo "brew install $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+
+# Helper to create new release for extract-audio
+extract-audio:
+	@echo "For extract-audio, follow similar steps to release a new version"
+	@echo "1. Update the version and URL in $(EXTRACT_AUDIO_FORMULA)"
+	@echo "2. Calculate the SHA256 of the new release"
+	@echo "3. Update the formula and push changes"
+
+# Instructions for installing formulae
+install-help:
+	@echo "To install these formulae locally:"
+	@echo "brew tap $(GITHUB_USER)/$(TAP_NAME) file:///Users/rc/Projects/workspace/$(TAP_NAME)"
+	@echo "brew install $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+	@echo "brew install $(GITHUB_USER)/$(TAP_NAME)/extract-audio"
+
+# For development testing
+dev-test:
+	@echo "For testing the formula locally without a release:"
+	@echo "1. brew tap $(GITHUB_USER)/$(TAP_NAME) file:///Users/rc/Projects/workspace/$(TAP_NAME)"
+	@echo "2. Edit the formula to point to a local file:"
+	@echo "   url \"file:///Users/rc/Projects/workspace/zi\""
+	@echo "   sha256 :no_check"
+	@echo "3. Run: brew install --verbose $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
 
 clean:
-	rm -f $(TAR_FILE)
+	@echo "Cleaning up..."
