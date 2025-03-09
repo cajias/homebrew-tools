@@ -1,9 +1,9 @@
 class ShellSettings < Formula
   desc "Personal zsh shell settings with Sheldon plugin manager"
   homepage "https://github.com/cajias/zi"
-  url "https://github.com/cajias/zi/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "PLACEHOLDER_SHA256" # You'll need to update this after creating a release
-  version "1.0.0"
+  url "https://github.com/cajias/zi/archive/refs/tags/v20230903.PLACEHOLDER.tar.gz"
+  sha256 "PLACEHOLDER_SHA256" # Will be automatically updated by GitHub Actions
+  version "20230903.PLACEHOLDER" # Date-based versioning for automatic updates
 
   depends_on "sheldon"
 
