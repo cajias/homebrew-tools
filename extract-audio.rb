@@ -22,7 +22,7 @@ class ExtractAudio < Formula
 
     # Create a wrapper script to use the virtual environment's Python interpreter
     (bin/"extract_audio").write <<~EOS
-      #!/bin/bash
+      #!/bin/sh -eu
       source #{venv_dir}/bin/activate
       python3 #{bin}/extract_audio.py "$@"
     EOS
