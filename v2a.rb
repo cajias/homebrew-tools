@@ -1,9 +1,9 @@
 class V2a < Formula
   desc "Video to Audio Converter"
   homepage "https://github.com/cajias/v2a"
-  url "https://github.com/cajias/v2a/archive/v1.0.9.tar.gz"
-  sha256 "c7f0baa46100cb87930606f4cd610b6acde8552d7f09137cb1c4e687963cb463"
-  version "1.0.9"
+  url "https://github.com/cajias/v2a/archive/v1.0.10.tar.gz"
+  sha256 "32081afdfbe13f8bc85071a38bf61ce39bf1957c946d3b0dc644c95593a35f5c"
+  version "1.0.10"
 
   depends_on "ffmpeg"
   depends_on "python@3.9"
