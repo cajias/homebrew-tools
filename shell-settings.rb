@@ -11,17 +11,15 @@ class ShellSettings < Formula
     # Install the init script
     prefix.install "init.zsh"
     
-    # Create a directory for the binaries
-    bin_dir = prefix/"bin"
-    bin_files = Dir["bin/*"]
-    
-    # Only try to install bin files if they exist
-    unless bin_files.empty?
-      bin_dir.install bin_files
-      # Make all scripts executable only if they exist
-      bin_executables = Dir["#{bin_dir}/*"]
-      unless bin_executables.empty?
-        system "chmod", "+x", *bin_executables
+    # Create a directory for the binaries if they exist in the source
+    if Dir.exist?("bin") && !Dir["bin/*"].empty?
+      bin_dir = prefix/"bin"
+      bin_dir.mkpath
+      bin_files = Dir["bin/*"]
+      bin_files.each do |file|
+        bin_file = File.basename(file)
+        cp file, bin_dir/bin_file
+        chmod 0755, bin_dir/bin_file
       end
     end
   end
