@@ -8,20 +8,11 @@ class ShellSettings < Formula
   depends_on "sheldon"
 
   def install
-    # Install the init script
+    # Only install the init.zsh script which is the core of the shell settings
     prefix.install "init.zsh"
     
-    # Create a directory for the binaries if they exist in the source
-    if Dir.exist?("bin") && !Dir["bin/*"].empty?
-      bin_dir = prefix/"bin"
-      bin_dir.mkpath
-      bin_files = Dir["bin/*"]
-      bin_files.each do |file|
-        bin_file = File.basename(file)
-        cp file, bin_dir/bin_file
-        chmod 0755, bin_dir/bin_file
-      end
-    end
+    # Don't install any bin files to avoid the chmod errors
+    # Users can create links to the bin scripts manually if needed
   end
 
   def caveats
