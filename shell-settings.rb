@@ -13,10 +13,14 @@ class ShellSettings < Formula
     
     # Create a directory for the binaries
     bin_dir = prefix/"bin"
-    bin_dir.install Dir["bin/*"]
+    bin_files = Dir["bin/*"]
     
-    # Make all scripts executable
-    system "chmod", "+x", *Dir["#{bin_dir}/*"]
+    # Only try to install bin files if they exist
+    unless bin_files.empty?
+      bin_dir.install bin_files
+      # Make all scripts executable
+      system "chmod", "+x", *Dir["#{bin_dir}/*"]
+    end
   end
 
   def caveats
@@ -42,7 +46,7 @@ class ShellSettings < Formula
     sheldon_config = "#{ENV["HOME"]}/.config/sheldon/plugins.toml"
     unless File.exist?(sheldon_config)
       # Create the base sheldon configuration with all needed plugins
-      system "cat", "#{prefix}/init.zsh", "|", "grep", "-A", "40", "cat > \"$SHELDON_CONFIG_DIR/plugins.toml\"", "|", "grep", "-v", "EOF", "|", "grep", "-v", "cat", ">", sheldon_config
+      system "zsh", "-c", "cat \"#{prefix}/init.zsh\" | grep -A 40 'cat > \"\\$SHELDON_CONFIG_DIR/plugins.toml\"' | grep -v EOF | grep -v cat > \"#{sheldon_config}\""
     end
   end
 
