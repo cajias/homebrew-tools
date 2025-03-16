@@ -6,13 +6,22 @@ class ShellSettings < Formula
   version "20250310.d5a17f0" # Date-based versioning for automatic updates
 
   depends_on "sheldon"
+  
+  # Skip trying to install binaries completely
+  pour_bottle? do
+    reason "Binary distribution doesn't include scripts"
+    satisfy { false }
+  end
 
   def install
     # Only install the init.zsh script which is the core of the shell settings
     prefix.install "init.zsh"
     
-    # Don't install any bin files to avoid the chmod errors
-    # Users can create links to the bin scripts manually if needed
+    # Create a share directory for any other files
+    (share/"shell-settings").mkpath
+    
+    # Explicitly avoid bin directory
+    (buildpath/"bin").rmtree if Dir.exist?("bin")
   end
 
   def caveats
