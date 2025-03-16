@@ -64,6 +64,19 @@ class ShellSettings < Formula
   end
 
   def caveats
+    # Store weekly update info in caveats for users
+    weekly_update_info = <<~EOS
+      
+      The brew-weekly-update command is now available, which:
+      - Runs 'brew update' only once per week (tracks via ~/.brew_last_update)
+      - Runs silently in the background
+      
+      To auto-run it when your shell starts, add to your .zshrc:
+        
+        # Run silent weekly brew update (once per week)
+        (brew-weekly-update &) >/dev/null 2>&1
+    EOS
+    
     <<~EOS
       To use these shell settings, add the following to your ~/.zshrc:
 
@@ -75,6 +88,7 @@ class ShellSettings < Formula
         echo 'source #{prefix}/init.zsh' > ~/.zshrc
         
       Note: You need to restart your shell or run 'source ~/.zshrc' for changes to take effect.
+      #{weekly_update_info}
     EOS
   end
 
@@ -87,23 +101,6 @@ class ShellSettings < Formula
     unless File.exist?(sheldon_config)
       # Create the base sheldon configuration with all needed plugins
       system "zsh", "-c", "cat \"#{prefix}/init.zsh\" | grep -A 40 'cat > \"\\$SHELDON_CONFIG_DIR/plugins.toml\"' | grep -v EOF | grep -v cat > \"#{sheldon_config}\""
-    end
-    
-    # Create a hook file to call our brew-weekly-update script
-    hook_file = "#{ENV["HOME"]}/.zshrc.d/brew-update-hook.zsh"
-    system "mkdir", "-p", "#{ENV["HOME"]}/.zshrc.d"
-    
-    # Only create the hook if it doesn't exist
-    unless File.exist?(hook_file)
-      File.open(hook_file, "w") do |file|
-        file.write <<~EOS
-          # Run weekly brew update in the background (added by shell-settings)
-          # This will only update once a week and runs silently in background
-          command -v brew >/dev/null 2>&1 && {
-            (brew-weekly-update &) >/dev/null 2>&1
-          }
-        EOS
-      end
     end
   end
 
