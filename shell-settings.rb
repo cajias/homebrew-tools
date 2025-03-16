@@ -21,7 +21,7 @@ class ShellSettings < Formula
     (share/"shell-settings").mkpath
     
     # Explicitly avoid bin directory
-    (buildpath/"bin").rmtree if Dir.exist?("bin")
+    FileUtils.rm_rf(buildpath/"bin") if Dir.exist?("bin")
   end
 
   def caveats
