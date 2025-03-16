@@ -18,8 +18,11 @@ class ShellSettings < Formula
     # Only try to install bin files if they exist
     unless bin_files.empty?
       bin_dir.install bin_files
-      # Make all scripts executable
-      system "chmod", "+x", *Dir["#{bin_dir}/*"]
+      # Make all scripts executable only if they exist
+      bin_executables = Dir["#{bin_dir}/*"]
+      unless bin_executables.empty?
+        system "chmod", "+x", *bin_executables
+      end
     end
   end
 
