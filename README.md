@@ -122,6 +122,33 @@ use = ["lib/history.zsh"]
 
 See the example `plugins.toml` at `$(brew --prefix)/share/shell-settings/plugins.toml` for the recommended configuration.
 
+### Terminal Window Opening on Shell Startup (zi/zinit)
+
+If you're using the zi-based configuration and a terminal window opens on shell startup, this is caused by the `brew_check_function` in the cajias/zi plugin attempting to run brew updates.
+
+**Problem:**
+The init.zsh from cajias/zi contains:
+```bash
+brew_check_function > /dev/null 2>&1 &
+```
+
+This spawns a background job that may open a new terminal window (especially on macOS with iTerm2).
+
+**Solution - Disable the brew check:**
+
+Add this to your `~/.zshrc` **before** sourcing shell-settings:
+```bash
+export DISABLE_BREW_CHECK=1
+source $(brew --prefix)/opt/shell-settings/init.zsh
+```
+
+**Alternative - Manual edit:**
+```bash
+# Edit the init.zsh file and comment out the line:
+nano $(brew --prefix)/opt/shell-settings/init.zsh
+# Find and comment out: brew_check_function > /dev/null 2>&1 &
+```
+
 ## Development
 
 For formula development and testing:
