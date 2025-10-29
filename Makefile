@@ -9,7 +9,7 @@ GITHUB_USER ?= cajias
 GITHUB_SHELL_REPO = zi
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: all help release-shell-settings install-help dev-test lint clean
+.PHONY: all help release-shell-settings install-help dev-test lint test clean
 
 all: help
 
@@ -17,6 +17,7 @@ all: help
 help:
 	@echo "Available targets:"
 	@echo "  help                 - Show this help message"
+	@echo "  test                 - Run test suite (syntax, validation, integration)"
 	@echo "  release-shell-settings - Release a new version of shell-settings"
 	@echo "  install-help         - Show instructions for installing formulae"
 	@echo "  dev-test             - Show instructions for local testing"
@@ -63,6 +64,11 @@ dev-test:
 	@echo ""
 	@echo "4. To reinstall after changes:"
 	@echo "   brew reinstall --verbose $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+
+# Run test suite
+test:
+	@echo "Running test suite..."
+	@./test.sh
 
 # Lint formula files
 lint:

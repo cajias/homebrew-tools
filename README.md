@@ -1,5 +1,7 @@
 # homebrew-tools
 
+[![Test Homebrew Formulae](https://github.com/cajias/homebrew-tools/actions/workflows/test.yml/badge.svg)](https://github.com/cajias/homebrew-tools/actions/workflows/test.yml)
+
 This repository contains Homebrew formulae for my personal tools and configurations.
 
 ## Available Formulae
@@ -102,6 +104,26 @@ brew tap cajias/homebrew-tools file:///$(pwd)
 # Test install locally
 brew install --verbose cajias/homebrew-tools/shell-settings
 ```
+
+### Testing
+
+Run the test suite locally:
+
+```bash
+# Run all tests (same as CI)
+./test.sh
+```
+
+The test suite validates:
+- ✓ Ruby syntax for all formulae
+- ✓ Shell script syntax (bash)
+- ✓ Makefile targets
+- ✓ Homebrew integration (if brew is installed)
+- ✓ Documentation completeness
+- ✓ File permissions
+- ✓ Git configuration
+
+**CI/CD:** Tests run automatically on every push and pull request via GitHub Actions on both Ubuntu and macOS.
 
 ### Available Make Targets
 
