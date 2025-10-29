@@ -26,44 +26,42 @@ class ShellSettings < Formula
     # Create a script to handle weekly brew updates quietly
     (bin/"brew-weekly-update").write <<~EOS
       #!/bin/zsh
-      
-      # Ensure no output, even in error cases
-      {
-        # File to track last update time
-        LAST_UPDATE_FILE="$HOME/.brew_last_update"
-        SECONDS_IN_WEEK=604800  # 7 days * 24 hours * 60 minutes * 60 seconds
-        
-        # Function to run brew update quietly in the background
-        run_brew_update() {
-          # Create or touch the update file
-          touch "$LAST_UPDATE_FILE" 2>/dev/null
-          
-          # Run brew update silently in the background, redirecting all output
-          (brew update >/dev/null 2>&1 &)
-        }
-        
-        # Check if update file exists
-        if [ ! -f "$LAST_UPDATE_FILE" ]; then
-          # First time - run update
-          run_brew_update
-        else
-          # Check if it's been more than a week
-          current_time=$(date +%s)
+
+      # File to track last update time
+      LAST_UPDATE_FILE="$HOME/.brew_last_update"
+      SECONDS_IN_WEEK=604800  # 7 days * 24 hours * 60 minutes * 60 seconds
+
+      # Function to run brew update quietly in the background
+      run_brew_update() {
+        touch "$LAST_UPDATE_FILE" 2>/dev/null
+        (brew update &) >/dev/null 2>&1
+      }
+
+      # Check if update file exists
+      if [ ! -f "$LAST_UPDATE_FILE" ]; then
+        # First time - run update
+        run_brew_update
+      else
+        # Check if it's been more than a week (cross-platform)
+        current_time=$(date +%s)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
           last_update=$(stat -f %m "$LAST_UPDATE_FILE" 2>/dev/null || echo "0")
-          time_diff=$((current_time - last_update))
-          
-          if [ $time_diff -gt $SECONDS_IN_WEEK ]; then
-            run_brew_update
-          fi
+        else
+          last_update=$(stat -c %Y "$LAST_UPDATE_FILE" 2>/dev/null || echo "0")
         fi
-      } >/dev/null 2>&1
+        time_diff=$((current_time - last_update))
+
+        if [ $time_diff -gt $SECONDS_IN_WEEK ]; then
+          run_brew_update
+        fi
+      fi
     EOS
     
     # Make the update script executable
     chmod 0755, bin/"brew-weekly-update"
-    
+
     # Explicitly avoid bin directory from source
-    FileUtils.rm_rf(buildpath/"bin") if Dir.exist?("bin")
+    FileUtils.rm_rf(buildpath/"bin") if (buildpath/"bin").exist?
   end
 
   def caveats
@@ -97,14 +95,13 @@ class ShellSettings < Formula
 
   def post_install
     # Create the sheldon config directory if it doesn't exist
-    system "mkdir", "-p", "#{ENV["HOME"]}/.config/sheldon"
-    
-    # Configure sheldon if it's not already configured
-    sheldon_config = "#{ENV["HOME"]}/.config/sheldon/plugins.toml"
-    unless File.exist?(sheldon_config)
-      # Create the base sheldon configuration with all needed plugins
-      system "zsh", "-c", "cat \"#{prefix}/init.zsh\" | grep -A 40 'cat > \"\\$SHELDON_CONFIG_DIR/plugins.toml\"' | grep -v EOF | grep -v cat > \"#{sheldon_config}\""
-    end
+    sheldon_config_dir = Pathname.new(ENV["HOME"])/".config"/"sheldon"
+    sheldon_config_dir.mkpath
+
+    # Note: Users should manually configure sheldon using the init.zsh script
+    # The init.zsh script contains the sheldon configuration that will be
+    # automatically applied when sourced in .zshrc
+    ohai "Sheldon configuration will be auto-generated when you first source init.zsh"
   end
 
   test do
