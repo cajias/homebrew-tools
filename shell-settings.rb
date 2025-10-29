@@ -181,6 +181,29 @@ class ShellSettings < Formula
       # Vim mode: Vi keybindings in zsh (uncomment if you prefer vim bindings)
       # [plugins.zsh-vi-mode]
       # github = "jeffreytse/zsh-vi-mode"
+
+      # Oh My Zsh libraries (uncomment if needed)
+      # IMPORTANT: Only load specific lib files, NOT the entire lib directory
+      # Loading the entire lib dir will include test files that run on shell init!
+      # [plugins.ohmyzsh-completion]
+      # github = "ohmyzsh/ohmyzsh"
+      # use = ["lib/completion.zsh"]
+      #
+      # [plugins.ohmyzsh-directories]
+      # github = "ohmyzsh/ohmyzsh"
+      # use = ["lib/directories.zsh"]
+      #
+      # [plugins.ohmyzsh-history]
+      # github = "ohmyzsh/ohmyzsh"
+      # use = ["lib/history.zsh"]
+      #
+      # [plugins.ohmyzsh-key-bindings]
+      # github = "ohmyzsh/ohmyzsh"
+      # use = ["lib/key-bindings.zsh"]
+      #
+      # [plugins.ohmyzsh-git]
+      # github = "ohmyzsh/ohmyzsh"
+      # dir = "plugins/git"
     EOS
 
     # Create a bin directory for utility scripts
