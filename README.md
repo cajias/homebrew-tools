@@ -6,14 +6,20 @@ This repository contains Homebrew formulae for my personal tools and configurati
 
 ### shell-settings
 
-My personal ZSH configuration using Sheldon plugin manager, with:
+My personal ZSH configuration with **dual plugin manager support**:
+
+**Default: zi/zinit** (fast, feature-rich, zsh-based)
+**Alternative: Sheldon** (blazing fast, Rust-based, simple)
+
+Features:
 - Syntax highlighting
 - Auto-suggestions
 - Git integration
 - SSH agent setup
 - NVM for Node.js
 - direnv support
-- And more!
+- Easy switching between plugin managers
+- Weekly brew auto-update script
 
 ### extract-audio
 
@@ -25,12 +31,41 @@ A utility to extract audio from video files, with support for various formats.
 # Tap the repository
 brew tap cajias/homebrew-tools
 
-# Install the shell settings
+# Install the shell settings (default: zi-based)
 brew install cajias/homebrew-tools/shell-settings
+
+# Optional: Install Sheldon if you want to try the alternative configuration
+brew install sheldon
 
 # Install the audio extraction utility
 brew install cajias/homebrew-tools/extract-audio
 ```
+
+### Using shell-settings
+
+After installation, you'll have two configuration options:
+
+**Option 1: zi/zinit (default)**
+```bash
+# Add to your ~/.zshrc:
+source $(brew --prefix)/opt/shell-settings/init.zsh
+```
+
+**Option 2: Sheldon (alternative)**
+```bash
+# 1. Install Sheldon (if not already installed)
+brew install sheldon
+
+# 2. Copy the example Sheldon config
+mkdir -p ~/.config/sheldon
+cp $(brew --prefix)/share/shell-settings/plugins.toml ~/.config/sheldon/
+
+# 3. Add to your ~/.zshrc:
+source $(brew --prefix)/share/shell-settings/init-sheldon.zsh
+```
+
+**Switching between configurations:**
+Simply edit your `~/.zshrc` and change which init file you source, then run `source ~/.zshrc` to reload.
 
 ## Development
 

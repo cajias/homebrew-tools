@@ -1,11 +1,12 @@
 class ShellSettings < Formula
-  desc "Personal zsh shell settings with Sheldon plugin manager"
+  desc "Personal zsh shell settings with dual plugin manager support (zi and Sheldon)"
   homepage "https://github.com/cajias/zi"
   url "https://github.com/cajias/zi/archive/refs/tags/v20250310.d5a17f0.tar.gz"
   sha256 "f6b53a0e57e54501cd9ded081fe56c392f7b8d83d93b2b005ee875a72d6afd71" # Will be automatically updated by GitHub Actions
   version "20250310.d5a17f0" # Date-based versioning for automatic updates
 
-  depends_on "sheldon"
+  # zi is the default, but Sheldon is available as an alternative
+  depends_on "sheldon" => :optional
   
   # Skip trying to install binaries completely
   pour_bottle? do
@@ -14,12 +15,56 @@ class ShellSettings < Formula
   end
 
   def install
-    # Only install the init.zsh script which is the core of the shell settings
+    # Install the main init.zsh (zi-based by default)
     prefix.install "init.zsh"
-    
-    # Create a share directory for any other files
+
+    # Create a share directory for configuration examples
     (share/"shell-settings").mkpath
-    
+
+    # Create example Sheldon configuration
+    (share/"shell-settings"/"init-sheldon.zsh").write <<~EOS
+      # Sheldon-based ZSH Configuration
+      # To use: source #{prefix}/share/shell-settings/init-sheldon.zsh
+
+      # Initialize Sheldon plugin manager
+      eval "$(sheldon source)"
+
+      # Common shell settings
+      export EDITOR="vim"
+      export VISUAL="$EDITOR"
+
+      # History configuration
+      HISTSIZE=10000
+      SAVEHIST=10000
+      HISTFILE=~/.zsh_history
+      setopt SHARE_HISTORY
+      setopt HIST_IGNORE_DUPS
+      setopt HIST_IGNORE_SPACE
+    EOS
+
+    # Create example Sheldon plugins.toml
+    (share/"shell-settings"/"plugins.toml").write <<~EOS
+      # Sheldon plugins configuration
+      # Copy to ~/.config/sheldon/plugins.toml to use
+
+      shell = "zsh"
+
+      [plugins.zsh-defer]
+      github = "romkatv/zsh-defer"
+
+      [plugins.zsh-syntax-highlighting]
+      github = "zsh-users/zsh-syntax-highlighting"
+
+      [plugins.zsh-autosuggestions]
+      github = "zsh-users/zsh-autosuggestions"
+
+      [plugins.zsh-completions]
+      github = "zsh-users/zsh-completions"
+
+      [plugins.fzf-tab]
+      github = "Aloxaf/fzf-tab"
+    EOS
+
     # Create a bin directory for utility scripts
     bin.mkpath
     
@@ -65,43 +110,64 @@ class ShellSettings < Formula
   end
 
   def caveats
-    # Store weekly update info in caveats for users
-    weekly_update_info = <<~EOS
-      
-      The brew-weekly-update command is now available, which:
-      - Runs 'brew update' only once per week (tracks via ~/.brew_last_update)
-      - Runs silently in the background
-      
-      To auto-run it when your shell starts, add to your .zshrc:
-        
-        # Run silent weekly brew update (once per week)
-        brew-weekly-update &
-    EOS
-    
+    sheldon_installed = which("sheldon")
+
     <<~EOS
-      To use these shell settings, add the following to your ~/.zshrc:
+      Shell settings installed with dual plugin manager support!
 
-        # Source the shell settings
-        source #{prefix}/init.zsh
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-      If you want to completely replace your .zshrc, you can do:
-        
-        echo 'source #{prefix}/init.zsh' > ~/.zshrc
-        
-      Note: You need to restart your shell or run 'source ~/.zshrc' for changes to take effect.
-      #{weekly_update_info}
+      📦 DEFAULT (zi/zinit):
+        Add to your ~/.zshrc:
+          source #{prefix}/init.zsh
+
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+      🦀 ALTERNATIVE (Sheldon):#{sheldon_installed ? "" : " [Requires: brew install sheldon]"}
+        1. Install Sheldon (if not already installed):
+           brew install sheldon
+
+        2. Copy the example Sheldon config:
+           mkdir -p ~/.config/sheldon
+           cp #{share}/shell-settings/plugins.toml ~/.config/sheldon/
+
+        3. Add to your ~/.zshrc:
+           source #{share}/shell-settings/init-sheldon.zsh
+
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+      💡 SWITCHING BETWEEN CONFIGURATIONS:
+        Edit your ~/.zshrc and change which init file you source:
+          # For zi:      source #{prefix}/init.zsh
+          # For Sheldon: source #{share}/shell-settings/init-sheldon.zsh
+
+        Then reload: source ~/.zshrc
+
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+      🔄 BONUS FEATURE:
+        The brew-weekly-update command silently runs 'brew update'
+        once per week. To enable, add to your ~/.zshrc:
+          brew-weekly-update &
+
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+      📂 Configuration files:
+        - zi config:      #{prefix}/init.zsh
+        - Sheldon config: #{share}/shell-settings/init-sheldon.zsh
+        - Sheldon example: #{share}/shell-settings/plugins.toml
     EOS
   end
 
   def post_install
-    # Create the sheldon config directory if it doesn't exist
-    sheldon_config_dir = Pathname.new(ENV["HOME"])/".config"/"sheldon"
-    sheldon_config_dir.mkpath
+    # Only create Sheldon config directory if Sheldon is installed
+    if which("sheldon")
+      sheldon_config_dir = Pathname.new(ENV["HOME"])/".config"/"sheldon"
+      sheldon_config_dir.mkpath unless sheldon_config_dir.exist?
+      ohai "Sheldon detected! Example config available at: #{share}/shell-settings/plugins.toml"
+    end
 
-    # Note: Users should manually configure sheldon using the init.zsh script
-    # The init.zsh script contains the sheldon configuration that will be
-    # automatically applied when sourced in .zshrc
-    ohai "Sheldon configuration will be auto-generated when you first source init.zsh"
+    ohai "Default configuration uses zi. See post-install message for Sheldon setup."
   end
 
   test do
