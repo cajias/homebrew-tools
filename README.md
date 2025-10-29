@@ -27,6 +27,23 @@ A utility to extract audio from video files, with support for various formats.
 
 ## Installation
 
+### Quick Install (Recommended)
+
+Run the one-line installer:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/cajias/homebrew-tools/main/install.sh | bash
+```
+
+This interactive script will:
+- Check prerequisites (Homebrew)
+- Tap the repository
+- Let you choose which tools to install
+- Optionally install modern CLI tools (zoxide, eza, bat, fzf, atuin, etc.)
+- Help you configure your shell (zi or Sheldon)
+
+### Manual Installation
+
 ```bash
 # Tap the repository
 brew tap cajias/homebrew-tools
@@ -39,6 +56,9 @@ brew install sheldon
 
 # Install the audio extraction utility
 brew install cajias/homebrew-tools/extract-audio
+
+# Install the video to audio converter
+brew install cajias/homebrew-tools/v2a
 ```
 
 ### Using shell-settings
@@ -83,17 +103,32 @@ brew tap cajias/homebrew-tools file:///$(pwd)
 brew install --verbose cajias/homebrew-tools/shell-settings
 ```
 
-## Creating a new release
-
-To update a formula for a new release:
-
-1. Create a tag and release in the source repository
-2. Calculate the SHA256 of the new release tarball
-3. Update the formula with the new version and SHA256
-4. Commit and push changes to this repository
-
-See the Makefile for detailed instructions:
+### Available Make Targets
 
 ```bash
-make shell-settings
+make help                    # Show available targets
+make release-shell-settings  # Release a new version of shell-settings
+make install-help            # Show installation instructions
+make dev-test               # Show local testing instructions
+make lint                   # Lint all formula files
+make clean                  # Clean up temporary files
 ```
+
+## Creating a New Release
+
+The repository includes an automated release script:
+
+```bash
+# Release a new version (e.g., 2.0.0)
+./release-shell-settings.sh 2.0.0
+
+# Or use Make:
+make release-shell-settings SHELL_SETTINGS_VERSION=2.0.0
+```
+
+This script will:
+1. Create and push a git tag in the source repository
+2. Create a GitHub release
+3. Calculate the SHA256 of the release tarball
+4. Update the formula with the new version and SHA256
+5. Commit and push the changes
