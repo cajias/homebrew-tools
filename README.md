@@ -89,6 +89,39 @@ source $(brew --prefix)/share/shell-settings/init-sheldon.zsh
 **Switching between configurations:**
 Simply edit your `~/.zshrc` and change which init file you source, then run `source ~/.zshrc` to reload.
 
+## Troubleshooting
+
+### Sheldon: Tests Running on Shell Initialization
+
+If you see test output when starting a new shell (e.g., "Test: it should delete a single plugin"), this is caused by accidentally loading test files from Oh My Zsh.
+
+**Problem:**
+```toml
+# DON'T DO THIS - loads the entire lib directory including tests!
+[plugins.ohmyzsh-lib]
+github = "ohmyzsh/ohmyzsh"
+dir = "lib"
+```
+
+**Solution:**
+Only load specific lib files you need:
+```toml
+# Load only specific lib files (excludes tests)
+[plugins.ohmyzsh-completion]
+github = "ohmyzsh/ohmyzsh"
+use = ["lib/completion.zsh"]
+
+[plugins.ohmyzsh-directories]
+github = "ohmyzsh/ohmyzsh"
+use = ["lib/directories.zsh"]
+
+[plugins.ohmyzsh-history]
+github = "ohmyzsh/ohmyzsh"
+use = ["lib/history.zsh"]
+```
+
+See the example `plugins.toml` at `$(brew --prefix)/share/shell-settings/plugins.toml` for the recommended configuration.
+
 ## Development
 
 For formula development and testing:
