@@ -31,7 +31,7 @@ class Glab < Formula
   conflicts_with "glab", because: "this is a fork with additional features"
 
   def install
-    bin.install "bin/glab"
+    bin.install "glab"
   end
 
   def caveats
