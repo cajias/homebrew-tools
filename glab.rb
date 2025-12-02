@@ -1,30 +1,30 @@
 class Glab < Formula
   desc "GitLab CLI with cookie-based authentication for IdP/SSO (Midway) support"
   homepage "https://github.com/cajias/glab"
-  version "1.78.3-cajias.2"
+  version "1.78.3-cajias.3"
   license "MIT"
 
   on_macos do
     on_intel do
-      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.2/glab_1.78.3-cajias.2_darwin_amd64.tar.gz"
-      sha256 "b30da538ca21db2f16b4f9fd0d738f2c5603fc136f9fbd3c3dafbf85e60460f6"
+      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.3/glab_1.78.3-cajias.3_darwin_amd64.tar.gz"
+      sha256 "54f23965bfd60a8251a62423c2951ce7ce5e6cee40fafdf98e43bca86396a2e7"
     end
 
     on_arm do
-      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.2/glab_1.78.3-cajias.2_darwin_arm64.tar.gz"
-      sha256 "594979d8929b7579410fabfd969a88837507ae2ea16a947e8e7f0090501b0fd0"
+      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.3/glab_1.78.3-cajias.3_darwin_arm64.tar.gz"
+      sha256 "b27eea03923c131fd8ca43a5be423457d3c5db33b2cdf3969b5964a2a3a328db"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.2/glab_1.78.3-cajias.2_linux_amd64.tar.gz"
-      sha256 "c4accc7eed708fab301ce956bf05b17ac25c5f20ff831879fa38f7d0aff40ed0"
+      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.3/glab_1.78.3-cajias.3_linux_amd64.tar.gz"
+      sha256 "5a110eeea8c47e2c25335a66ee1bda9615f2f96d0ab2276d03ae8b24f275e2ae"
     end
 
     on_arm do
-      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.2/glab_1.78.3-cajias.2_linux_arm64.tar.gz"
-      sha256 "72d6cd575129432bc2261dd4ecbadaf1c7c69d3ee20862cdb3fc21608f0504c0"
+      url "https://github.com/cajias/glab/releases/download/v1.78.3-cajias.3/glab_1.78.3-cajias.3_linux_arm64.tar.gz"
+      sha256 "46ca35a830f157a7c7f9a8feac5481c677afde97f507e902318e0bbe6c0e421e"
     end
   end
 
