@@ -1,11 +1,10 @@
 class ShellSettings < Formula
-  desc "Personal zsh shell settings with dual plugin manager support (zi and Sheldon)"
-  homepage "https://github.com/cajias/zi"
-  url "https://github.com/cajias/zi/archive/refs/tags/v20250310.d5a17f0.tar.gz"
+  desc "Personal zsh shell settings with Sheldon plugin manager"
+  homepage "https://github.com/cajias/dotfiles"
+  url "https://github.com/cajias/dotfiles/archive/refs/tags/v20250310.d5a17f0.tar.gz"
   sha256 "f6b53a0e57e54501cd9ded081fe56c392f7b8d83d93b2b005ee875a72d6afd71" # Will be automatically updated by GitHub Actions
   version "20250310.d5a17f0" # Date-based versioning for automatic updates
 
-  # zi is the default, but Sheldon is available as an alternative
   depends_on "sheldon" => :optional
   
   # Skip trying to install binaries completely
@@ -254,17 +253,11 @@ class ShellSettings < Formula
     sheldon_installed = which("sheldon")
 
     <<~EOS
-      Shell settings installed with dual plugin manager support!
+      Shell settings installed with Sheldon plugin manager!
 
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-      📦 DEFAULT (zi/zinit):
-        Add to your ~/.zshrc:
-          source #{prefix}/init.zsh
-
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-      🦀 ALTERNATIVE (Sheldon):#{sheldon_installed ? "" : " [Requires: brew install sheldon]"}
+      📦 SETUP:
         1. Install Sheldon (if not already installed):
            brew install sheldon
 
@@ -273,30 +266,23 @@ class ShellSettings < Formula
            cp #{share}/shell-settings/plugins.toml ~/.config/sheldon/
 
         3. Add to your ~/.zshrc:
-           source #{share}/shell-settings/init-sheldon.zsh
+           source #{prefix}/init.zsh
 
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-      💡 SWITCHING BETWEEN CONFIGURATIONS:
-        Edit your ~/.zshrc and change which init file you source:
-          # For zi:      source #{prefix}/init.zsh
-          # For Sheldon: source #{share}/shell-settings/init-sheldon.zsh
-
-        Then reload: source ~/.zshrc
-
-      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-      🔄 BONUS FEATURE:
-        The brew-weekly-update command silently runs 'brew update'
-        once per week. To enable, add to your ~/.zshrc:
-          brew-weekly-update &
+      🔄 RELOADING:
+        After making changes, reload your shell:
+          source ~/.zshrc
+          or
+          exec zsh
 
       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
       📂 Configuration files:
-        - zi config:      #{prefix}/init.zsh
-        - Sheldon config: #{share}/shell-settings/init-sheldon.zsh
-        - Sheldon example: #{share}/shell-settings/plugins.toml
+        - Main config:   #{prefix}/init.zsh
+        - Sheldon config (example): #{share}/shell-settings/plugins.toml
+
+      📖 Learn more: https://github.com/cajias/dotfiles
     EOS
   end
 
@@ -306,9 +292,11 @@ class ShellSettings < Formula
       sheldon_config_dir = Pathname.new(ENV["HOME"])/".config"/"sheldon"
       sheldon_config_dir.mkpath unless sheldon_config_dir.exist?
       ohai "Sheldon detected! Example config available at: #{share}/shell-settings/plugins.toml"
+    else
+      opoo "Sheldon not found. Install with: brew install sheldon"
     end
 
-    ohai "Default configuration uses zi. See post-install message for Sheldon setup."
+    ohai "Configuration complete! See above for setup instructions."
   end
 
   test do
