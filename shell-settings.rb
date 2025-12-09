@@ -1,9 +1,9 @@
 class ShellSettings < Formula
   desc "Personal zsh shell settings with Sheldon plugin manager"
   homepage "https://github.com/cajias/dotfiles"
-  url "https://github.com/cajias/zi/archive/refs/tags/v20251209.ce37ae9.tar.gz"
-  sha256 "45a2cdf009be5441d08ba2d3a70c2c149c07dda7e62d6f8915dd64e29c7752eb" # Will be automatically updated by GitHub Actions
-  version "20251209.ce37ae9" # Date-based versioning for automatic updates
+  url "https://github.com/cajias/dotfiles/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5" # Will be automatically updated by GitHub Actions
+  version "1.1.0" # Date-based versioning for automatic updates
 
   depends_on "sheldon" => :optional
   
