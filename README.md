@@ -6,7 +6,7 @@ This repository contains Homebrew formulae for my personal tools and configurati
 
 ## Available Formulae
 
-### shell-settings
+### dotfiles
 
 My personal ZSH configuration with **dual plugin manager support**:
 
@@ -51,7 +51,7 @@ This interactive script will:
 brew tap cajias/homebrew-tools
 
 # Install the shell settings (default: zi-based)
-brew install cajias/homebrew-tools/shell-settings
+brew install cajias/homebrew-tools/dotfiles
 
 # Optional: Install Sheldon if you want to try the alternative configuration
 brew install sheldon
@@ -63,14 +63,14 @@ brew install cajias/homebrew-tools/extract-audio
 brew install cajias/homebrew-tools/v2a
 ```
 
-### Using shell-settings
+### Using dotfiles
 
 After installation, you'll have two configuration options:
 
 **Option 1: zi/zinit (default)**
 ```bash
 # Add to your ~/.zshrc:
-source $(brew --prefix)/opt/shell-settings/init.zsh
+source $(brew --prefix)/opt/dotfiles/init.zsh
 ```
 
 **Option 2: Sheldon (alternative)**
@@ -80,10 +80,10 @@ brew install sheldon
 
 # 2. Copy the example Sheldon config
 mkdir -p ~/.config/sheldon
-cp $(brew --prefix)/share/shell-settings/plugins.toml ~/.config/sheldon/
+cp $(brew --prefix)/share/dotfiles/plugins.toml ~/.config/sheldon/
 
 # 3. Add to your ~/.zshrc:
-source $(brew --prefix)/share/shell-settings/init-sheldon.zsh
+source $(brew --prefix)/share/dotfiles/init-sheldon.zsh
 ```
 
 **Switching between configurations:**
@@ -120,7 +120,7 @@ github = "ohmyzsh/ohmyzsh"
 use = ["lib/history.zsh"]
 ```
 
-See the example `plugins.toml` at `$(brew --prefix)/share/shell-settings/plugins.toml` for the recommended configuration.
+See the example `plugins.toml` at `$(brew --prefix)/share/dotfiles/plugins.toml` for the recommended configuration.
 
 ## Development
 
@@ -135,7 +135,7 @@ cd homebrew-tools
 brew tap cajias/homebrew-tools file:///$(pwd)
 
 # Test install locally
-brew install --verbose cajias/homebrew-tools/shell-settings
+brew install --verbose cajias/homebrew-tools/dotfiles
 ```
 
 ### Testing
@@ -170,12 +170,12 @@ make clean                  # Clean up temporary files
 
 ## Creating a New Release
 
-Releases are managed via the automated GitHub Actions workflow (`.github/workflows/update-shell-settings.yml`).
+Releases are managed via the automated GitHub Actions workflow (`.github/workflows/update-dotfiles.yml`).
 
 ### Release Process
 
 1. **Manually trigger the workflow** from GitHub Actions tab:
-   - Go to Actions → Update shell-settings formula
+   - Go to Actions → Update dotfiles formula
    - Click "Run workflow"
    - Provide the release tag (e.g., `v20250309.abc1234`)
    - Provide the version string (e.g., `20250309.abc1234`)

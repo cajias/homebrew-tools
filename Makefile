@@ -1,5 +1,5 @@
 # Variables
-SHELL_SETTINGS_FORMULA = shell-settings.rb
+DOTFILES_FORMULA = dotfiles.rb
 EXTRACT_AUDIO_FORMULA = extract-audio.rb
 V2A_FORMULA = v2a.rb
 
@@ -31,13 +31,13 @@ install-help:
 	@echo ""
 	@echo "From GitHub (after publishing):"
 	@echo "  brew tap $(GITHUB_USER)/$(TAP_NAME)"
-	@echo "  brew install $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+	@echo "  brew install $(GITHUB_USER)/$(TAP_NAME)/dotfiles"
 	@echo "  brew install $(GITHUB_USER)/$(TAP_NAME)/extract-audio"
 	@echo "  brew install $(GITHUB_USER)/$(TAP_NAME)/v2a"
 	@echo ""
 	@echo "Local installation (for testing):"
 	@echo "  brew tap $(GITHUB_USER)/$(TAP_NAME) file://$(MAKEFILE_DIR)"
-	@echo "  brew install --verbose $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+	@echo "  brew install --verbose $(GITHUB_USER)/$(TAP_NAME)/dotfiles"
 
 # For development testing
 dev-test:
@@ -52,10 +52,10 @@ dev-test:
 	@echo "     sha256 :no_check"
 	@echo ""
 	@echo "3. Install with verbose output:"
-	@echo "   brew install --verbose $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+	@echo "   brew install --verbose $(GITHUB_USER)/$(TAP_NAME)/dotfiles"
 	@echo ""
 	@echo "4. To reinstall after changes:"
-	@echo "   brew reinstall --verbose $(GITHUB_USER)/$(TAP_NAME)/shell-settings"
+	@echo "   brew reinstall --verbose $(GITHUB_USER)/$(TAP_NAME)/dotfiles"
 
 # Run test suite
 test:
@@ -65,7 +65,7 @@ test:
 # Lint formula files
 lint:
 	@echo "Linting formula files..."
-	@for formula in $(SHELL_SETTINGS_FORMULA) $(EXTRACT_AUDIO_FORMULA) $(V2A_FORMULA); do \
+	@for formula in $(DOTFILES_FORMULA) $(EXTRACT_AUDIO_FORMULA) $(V2A_FORMULA); do \
 		echo "Checking $$formula..."; \
 		brew audit --strict --online $$formula || true; \
 	done

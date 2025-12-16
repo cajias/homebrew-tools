@@ -148,10 +148,10 @@ setup_shell_config() {
     print_header "Shell Configuration Setup"
 
     local shell_settings_installed=false
-    brew list "$TAP_REPO/shell-settings" &>/dev/null && shell_settings_installed=true
+    brew list "$TAP_REPO/dotfiles" &>/dev/null && shell_settings_installed=true
 
     if ! $shell_settings_installed; then
-        print_warning "shell-settings not installed, skipping configuration"
+        print_warning "dotfiles not installed, skipping configuration"
         return
     fi
 
@@ -179,7 +179,7 @@ setup_shell_config() {
 
 # Setup zi configuration
 setup_zi_config() {
-    local init_file="$(brew --prefix)/opt/shell-settings/init.zsh"
+    local init_file="$(brew --prefix)/opt/dotfiles/init.zsh"
     local zshrc="$HOME/.zshrc"
 
     echo ""
@@ -191,7 +191,7 @@ setup_zi_config() {
 
     if [ -f "$zshrc" ]; then
         if ask_yes_no "Automatically add to ~/.zshrc?" "y"; then
-            if grep -q "source.*shell-settings" "$zshrc"; then
+            if grep -q "source.*dotfiles" "$zshrc"; then
                 print_info "Already configured in ~/.zshrc"
             else
                 echo "" >> "$zshrc"
@@ -203,7 +203,7 @@ setup_zi_config() {
         fi
     else
         echo "source $init_file" > "$zshrc"
-        print_success "Created ~/.zshrc with shell-settings"
+        print_success "Created ~/.zshrc with dotfiles"
     fi
 }
 
@@ -226,7 +226,7 @@ setup_sheldon_config() {
     # Copy plugins.toml
     local sheldon_dir="$HOME/.config/sheldon"
     local plugins_toml="$sheldon_dir/plugins.toml"
-    local example_config="$(brew --prefix)/share/shell-settings/plugins.toml"
+    local example_config="$(brew --prefix)/share/dotfiles/plugins.toml"
 
     mkdir -p "$sheldon_dir"
 
@@ -243,13 +243,13 @@ setup_sheldon_config() {
     fi
 
     # Update .zshrc
-    local init_file="$(brew --prefix)/share/shell-settings/init-sheldon.zsh"
+    local init_file="$(brew --prefix)/share/dotfiles/init-sheldon.zsh"
     local zshrc="$HOME/.zshrc"
 
     echo ""
     if [ -f "$zshrc" ]; then
         if ask_yes_no "Add Sheldon configuration to ~/.zshrc?" "y"; then
-            if grep -q "source.*shell-settings" "$zshrc"; then
+            if grep -q "source.*dotfiles" "$zshrc"; then
                 print_info "Shell settings already in ~/.zshrc (you may need to update the path)"
             else
                 echo "" >> "$zshrc"
@@ -271,7 +271,7 @@ main() {
     print_header "🍺 $TAP_REPO Installer"
 
     echo "This script will help you install and configure:"
-    echo "  • shell-settings - ZSH configuration with dual plugin manager support"
+    echo "  • dotfiles - ZSH configuration with dual plugin manager support"
     echo "  • extract-audio  - Audio extraction utility"
     echo "  • v2a            - Video to audio converter"
     echo "  • Modern CLI tools (optional)"
@@ -291,7 +291,7 @@ main() {
     # Install formulae
     print_header "Installing Formulae"
 
-    install_formula "shell-settings" "ZSH configuration with plugin managers"
+    install_formula "dotfiles" "ZSH configuration with plugin managers"
     shell_settings_installed=$?
 
     install_formula "extract-audio" "Extract audio from video files"
@@ -300,7 +300,7 @@ main() {
     # Install modern tools
     install_modern_tools
 
-    # Setup shell if shell-settings was installed
+    # Setup shell if dotfiles was installed
     if [ $shell_settings_installed -eq 0 ]; then
         setup_shell_config
     fi
@@ -316,10 +316,10 @@ main() {
         echo "  2. Enjoy your enhanced shell experience!"
         echo ""
         echo "For more information:"
-        echo "  • View installed files: brew list $TAP_REPO/shell-settings"
-        echo "  • See configuration: brew info $TAP_REPO/shell-settings"
+        echo "  • View installed files: brew list $TAP_REPO/dotfiles"
+        echo "  • See configuration: brew info $TAP_REPO/dotfiles"
     else
-        echo "  • Install shell-settings: brew install $TAP_REPO/shell-settings"
+        echo "  • Install dotfiles: brew install $TAP_REPO/dotfiles"
     fi
 
     echo ""
