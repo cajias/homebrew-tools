@@ -1,5 +1,4 @@
 # Variables
-SHELL_SETTINGS_VERSION ?= 1.0.0
 SHELL_SETTINGS_FORMULA = shell-settings.rb
 EXTRACT_AUDIO_FORMULA = extract-audio.rb
 V2A_FORMULA = v2a.rb
@@ -9,7 +8,7 @@ GITHUB_USER ?= cajias
 GITHUB_SHELL_REPO = zi
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: all help release-shell-settings install-help dev-test lint test clean
+.PHONY: all help install-help dev-test lint test clean
 
 all: help
 
@@ -18,20 +17,13 @@ help:
 	@echo "Available targets:"
 	@echo "  help                 - Show this help message"
 	@echo "  test                 - Run test suite (syntax, validation, integration)"
-	@echo "  release-shell-settings - Release a new version of shell-settings"
 	@echo "  install-help         - Show instructions for installing formulae"
 	@echo "  dev-test             - Show instructions for local testing"
 	@echo "  lint                 - Lint all formula files"
 	@echo "  clean                - Clean up temporary files"
 	@echo ""
 	@echo "Variables:"
-	@echo "  SHELL_SETTINGS_VERSION - Version to release (default: $(SHELL_SETTINGS_VERSION))"
 	@echo "  GITHUB_USER            - GitHub username (default: $(GITHUB_USER))"
-
-# Release a new version of shell-settings using the automated script
-release-shell-settings:
-	@echo "Releasing shell-settings v$(SHELL_SETTINGS_VERSION)..."
-	@./release-shell-settings.sh $(SHELL_SETTINGS_VERSION)
 
 # Instructions for installing formulae
 install-help:

@@ -162,7 +162,6 @@ The test suite validates:
 
 ```bash
 make help                    # Show available targets
-make release-shell-settings  # Release a new version of shell-settings
 make install-help            # Show installation instructions
 make dev-test               # Show local testing instructions
 make lint                   # Lint all formula files
@@ -171,19 +170,21 @@ make clean                  # Clean up temporary files
 
 ## Creating a New Release
 
-The repository includes an automated release script:
+Releases are managed via the automated GitHub Actions workflow (`.github/workflows/update-shell-settings.yml`).
 
-```bash
-# Release a new version (e.g., 2.0.0)
-./release-shell-settings.sh 2.0.0
+### Release Process
 
-# Or use Make:
-make release-shell-settings SHELL_SETTINGS_VERSION=2.0.0
-```
+1. **Manually trigger the workflow** from GitHub Actions tab:
+   - Go to Actions → Update shell-settings formula
+   - Click "Run workflow"
+   - Provide the release tag (e.g., `v20250309.abc1234`)
+   - Provide the version string (e.g., `20250309.abc1234`)
 
-This script will:
-1. Create and push a git tag in the source repository
-2. Create a GitHub release
-3. Calculate the SHA256 of the release tarball
-4. Update the formula with the new version and SHA256
-5. Commit and push the changes
+2. **Or trigger via `repository_dispatch`** from another repository:
+   - The workflow automatically updates the formula when new releases are published
+
+The workflow will:
+1. Download the release tarball from the specified tag
+2. Calculate the SHA256 hash
+3. Update the formula with the new version, URL, and SHA256
+4. Commit and push the changes automatically
