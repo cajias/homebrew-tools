@@ -18,7 +18,7 @@ help:
 	@echo "Available targets:"
 	@echo "  help                 - Show this help message"
 	@echo "  test                 - Run test suite (syntax, validation, integration)"
-	@echo "  release-shell-settings - Release a new version of shell-settings"
+	@echo "  release-shell-settings - Release a new version of shell-settings (DEPRECATED)"
 	@echo "  install-help         - Show instructions for installing formulae"
 	@echo "  dev-test             - Show instructions for local testing"
 	@echo "  lint                 - Lint all formula files"
@@ -29,7 +29,17 @@ help:
 	@echo "  GITHUB_USER            - GitHub username (default: $(GITHUB_USER))"
 
 # Release a new version of shell-settings using the automated script
+# DEPRECATED: Use the GitHub Actions workflow (.github/workflows/update-shell-settings.yml) instead
 release-shell-settings:
+	@echo "=========================================="
+	@echo "WARNING: This target is DEPRECATED!"
+	@echo "=========================================="
+	@echo "Please use the GitHub Actions workflow instead:"
+	@echo "  .github/workflows/update-shell-settings.yml"
+	@echo ""
+	@echo "This target will be removed in a future version."
+	@echo "=========================================="
+	@echo ""
 	@echo "Releasing shell-settings v$(SHELL_SETTINGS_VERSION)..."
 	@./release-shell-settings.sh $(SHELL_SETTINGS_VERSION)
 

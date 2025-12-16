@@ -1,6 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
+# ============================================================================
+# DEPRECATION NOTICE
+# ============================================================================
+# This script is DEPRECATED and will be removed in a future version.
+#
+# Please use the automated GitHub Actions workflow instead:
+#   .github/workflows/update-shell-settings.yml
+#
+# The workflow provides automated, CI/CD-managed releases that are triggered
+# via repository_dispatch or workflow_dispatch events, eliminating the need
+# for manual script execution.
+#
+# For more information, see the README.md file.
+# ============================================================================
+
 # Configuration
 VERSION=${1:-"1.0.0"}
 GITHUB_USER="${GITHUB_USER:-cajias}"
@@ -24,6 +39,13 @@ if ! gh auth status &> /dev/null; then
     exit 1
 fi
 
+echo "=========================================="
+echo "WARNING: This script is DEPRECATED!"
+echo "=========================================="
+echo "Please use the GitHub Actions workflow: .github/workflows/update-shell-settings.yml"
+echo "This script will be removed in a future version."
+echo "=========================================="
+echo ""
 echo "Creating and publishing release v$VERSION of shell-settings..."
 
 # Step 1: Determine shell settings repository location

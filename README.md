@@ -162,7 +162,7 @@ The test suite validates:
 
 ```bash
 make help                    # Show available targets
-make release-shell-settings  # Release a new version of shell-settings
+make release-shell-settings  # Release a new version of shell-settings (DEPRECATED - use GitHub Actions)
 make install-help            # Show installation instructions
 make dev-test               # Show local testing instructions
 make lint                   # Lint all formula files
@@ -171,7 +171,33 @@ make clean                  # Clean up temporary files
 
 ## Creating a New Release
 
-The repository includes an automated release script:
+**Recommended: Use the automated GitHub Actions workflow** for creating new releases. The workflow is triggered automatically via `repository_dispatch` events or can be manually triggered via `workflow_dispatch`.
+
+### Automated Release (Recommended)
+
+The `.github/workflows/update-shell-settings.yml` workflow handles the complete release process:
+
+1. Manually trigger the workflow from GitHub Actions tab:
+   - Go to Actions → Update shell-settings formula
+   - Click "Run workflow"
+   - Provide the release tag (e.g., `v20250309.abc1234`)
+   - Provide the version string (e.g., `20250309.abc1234`)
+
+2. Or trigger via `repository_dispatch` from another repository:
+   - The workflow automatically updates the formula when new releases are published
+
+The workflow will:
+1. Download the release tarball from the specified tag
+2. Calculate the SHA256 hash
+3. Update the formula with the new version, URL, and SHA256
+4. Commit and push the changes automatically
+
+### Manual Release (Deprecated)
+
+> **⚠️ DEPRECATED:** The manual release script is deprecated and will be removed in a future version. Please use the GitHub Actions workflow above instead.
+
+<details>
+<summary>Legacy manual release instructions (not recommended)</summary>
 
 ```bash
 # Release a new version (e.g., 2.0.0)
@@ -187,3 +213,5 @@ This script will:
 3. Calculate the SHA256 of the release tarball
 4. Update the formula with the new version and SHA256
 5. Commit and push the changes
+
+</details>
