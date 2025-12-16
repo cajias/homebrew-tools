@@ -283,7 +283,8 @@ class ShellSettings < Formula
         - Sheldon config (example): #{share}/shell-settings/plugins.toml
 
       📖 Learn more: https://github.com/cajias/dotfiles
-         (Note: shell-settings is packaged from the cajias/dotfiles repository)
+         (Note: The name "shell-settings" is used in Homebrew to better describe the tool's purpose.
+          This formula is packaged from the cajias/dotfiles repository.)
     EOS
   end
 
