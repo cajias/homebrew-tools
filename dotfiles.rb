@@ -1,9 +1,9 @@
 class Dotfiles < Formula
   desc "Personal zsh shell settings with Sheldon plugin manager"
-  homepage "https://github.com/cajias/dotfiles"
-  url "https://github.com/cajias/dotfiles/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5" # Will be automatically updated by GitHub Actions
-  version "1.1.0" # Date-based versioning for automatic updates
+  homepage "https://github.com/cajias/zi"
+  url "https://github.com/cajias/zi/archive/refs/tags/v1.2.0.tar.gz"
+  sha256 "27061d234f23325b5e9add6516cea6f8ccbb8b00f45c0e765ea9319e8167fe04" # Will be automatically updated by GitHub Actions
+  version "1.2.0" # Date-based versioning for automatic updates
 
   depends_on "sheldon" => :optional
   
