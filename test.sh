@@ -33,7 +33,7 @@ failed_tests=0
 
 # Test 1: Ruby syntax
 print_header "Test 1: Ruby Syntax Validation"
-for formula in shell-settings.rb extract-audio.rb v2a.rb; do
+for formula in dotfiles.rb extract-audio.rb v2a.rb; do
     if ruby -c "$formula" > /dev/null 2>&1; then
         print_success "$formula syntax valid"
     else
@@ -83,7 +83,7 @@ if command -v brew &> /dev/null; then
 
     # Run brew audit
     print_info "Running brew audit (non-fatal)..."
-    brew audit --strict cajias/homebrew-tools/shell-settings 2>&1 | head -20 || true
+    brew audit --strict cajias/homebrew-tools/dotfiles 2>&1 | head -20 || true
 
 else
     print_info "Homebrew not found - skipping integration tests"
@@ -116,7 +116,7 @@ else
     ((failed_tests++))
 fi
 
-if grep -q "shell-settings" README.md && grep -q "extract-audio" README.md; then
+if grep -q "dotfiles" README.md && grep -q "extract-audio" README.md; then
     print_success "All formulae documented in README"
 else
     print_error "Missing formula documentation"

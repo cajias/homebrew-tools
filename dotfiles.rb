@@ -1,5 +1,5 @@
-class ShellSettings < Formula
-  desc "Personal zsh shell settings with Sheldon plugin manager (from dotfiles repository)"
+class Dotfiles < Formula
+  desc "Personal zsh shell settings with Sheldon plugin manager"
   homepage "https://github.com/cajias/dotfiles"
   url "https://github.com/cajias/dotfiles/archive/refs/tags/v1.1.0.tar.gz"
   sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5" # Will be automatically updated by GitHub Actions
@@ -18,12 +18,12 @@ class ShellSettings < Formula
     prefix.install "init.zsh"
 
     # Create a share directory for configuration examples
-    (share/"shell-settings").mkpath
+    (share/"dotfiles").mkpath
 
     # Create example Sheldon configuration
-    (share/"shell-settings"/"init-sheldon.zsh").write <<~EOS
+    (share/"dotfiles"/"init-sheldon.zsh").write <<~EOS
       # Sheldon-based ZSH Configuration - Optimized
-      # To use: source #{share}/shell-settings/init-sheldon.zsh
+      # To use: source #{share}/dotfiles/init-sheldon.zsh
 
       # ============================================================
       # Environment Variables
@@ -131,7 +131,7 @@ class ShellSettings < Formula
     EOS
 
     # Create example Sheldon plugins.toml - optimized configuration
-    (share/"shell-settings"/"plugins.toml").write <<~EOS
+    (share/"dotfiles"/"plugins.toml").write <<~EOS
       # Sheldon plugins configuration - Optimized for performance and usability
       # Copy to ~/.config/sheldon/plugins.toml to use
 
@@ -263,7 +263,7 @@ class ShellSettings < Formula
 
         2. Copy the example Sheldon config:
            mkdir -p ~/.config/sheldon
-           cp #{share}/shell-settings/plugins.toml ~/.config/sheldon/
+           cp #{share}/dotfiles/plugins.toml ~/.config/sheldon/
 
         3. Add to your ~/.zshrc:
            source #{prefix}/init.zsh
@@ -280,11 +280,9 @@ class ShellSettings < Formula
 
       📂 Configuration files:
         - Main config:   #{prefix}/init.zsh
-        - Sheldon config (example): #{share}/shell-settings/plugins.toml
+        - Sheldon config (example): #{share}/dotfiles/plugins.toml
 
       📖 Learn more: https://github.com/cajias/dotfiles
-         (Note: The name "shell-settings" is used in Homebrew to better describe the tool's purpose.
-          This formula is packaged from the cajias/dotfiles repository.)
     EOS
   end
 
@@ -293,7 +291,7 @@ class ShellSettings < Formula
     if which("sheldon")
       sheldon_config_dir = Pathname.new(ENV["HOME"])/".config"/"sheldon"
       sheldon_config_dir.mkpath unless sheldon_config_dir.exist?
-      ohai "Sheldon detected! Example config available at: #{share}/shell-settings/plugins.toml"
+      ohai "Sheldon detected! Example config available at: #{share}/dotfiles/plugins.toml"
     else
       opoo "Sheldon not found. Install with: brew install sheldon"
     end

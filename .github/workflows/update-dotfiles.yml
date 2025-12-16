@@ -1,8 +1,8 @@
-name: Update shell-settings formula
+name: Update dotfiles formula
 
 on:
   repository_dispatch:
-    types: [shell-settings-release]
+    types: [dotfiles-release]
   workflow_dispatch:
     inputs:
       tag:
@@ -67,21 +67,21 @@ jobs:
           SHA256="${{ steps.sha256.outputs.sha256 }}"
 
           # Update the formula file
-          sed -i "s|url \".*\"|url \"https://github.com/$GITHUB_USER/$REPO/archive/refs/tags/$TAG.tar.gz\"|g" shell-settings.rb
-          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" shell-settings.rb
-          sed -i "s|version \".*\"|version \"$VERSION\"|g" shell-settings.rb
-          sed -i "s|homepage \".*\"|homepage \"https://github.com/$GITHUB_USER/$REPO\"|g" shell-settings.rb
+          sed -i "s|url \".*\"|url \"https://github.com/$GITHUB_USER/$REPO/archive/refs/tags/$TAG.tar.gz\"|g" dotfiles.rb
+          sed -i "s|sha256 \".*\"|sha256 \"$SHA256\"|g" dotfiles.rb
+          sed -i "s|version \".*\"|version \"$VERSION\"|g" dotfiles.rb
+          sed -i "s|homepage \".*\"|homepage \"https://github.com/$GITHUB_USER/$REPO\"|g" dotfiles.rb
 
           echo "Updated formula:"
-          head -10 shell-settings.rb
+          head -10 dotfiles.rb
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add shell-settings.rb
+          git add dotfiles.rb
           git diff --staged --quiet && echo "No changes to commit" && exit 0
 
-          git commit -m "Update shell-settings to ${{ steps.get-tag.outputs.tag }}"
+          git commit -m "Update dotfiles to ${{ steps.get-tag.outputs.tag }}"
           git push
