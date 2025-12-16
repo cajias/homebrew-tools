@@ -1,5 +1,5 @@
 class ShellSettings < Formula
-  desc "Personal zsh shell settings with Sheldon plugin manager"
+  desc "Personal zsh shell settings with Sheldon plugin manager (from dotfiles repository)"
   homepage "https://github.com/cajias/dotfiles"
   url "https://github.com/cajias/dotfiles/archive/refs/tags/v1.1.0.tar.gz"
   sha256 "0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5" # Will be automatically updated by GitHub Actions
@@ -283,6 +283,7 @@ class ShellSettings < Formula
         - Sheldon config (example): #{share}/shell-settings/plugins.toml
 
       📖 Learn more: https://github.com/cajias/dotfiles
+         (Note: shell-settings is packaged from the cajias/dotfiles repository)
     EOS
   end
 

@@ -13,6 +13,8 @@ My personal ZSH configuration with **dual plugin manager support**:
 **Default: zi/zinit** (fast, feature-rich, zsh-based)
 **Alternative: Sheldon** (blazing fast, Rust-based, simple)
 
+> **Note:** This formula is packaged from the [cajias/dotfiles](https://github.com/cajias/dotfiles) repository. The name "shell-settings" is used in Homebrew to better describe the tool's purpose.
+
 Features:
 - Syntax highlighting
 - Auto-suggestions
