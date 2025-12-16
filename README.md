@@ -162,7 +162,6 @@ The test suite validates:
 
 ```bash
 make help                    # Show available targets
-make release-shell-settings  # Release a new version of shell-settings (DEPRECATED - use GitHub Actions)
 make install-help            # Show installation instructions
 make dev-test               # Show local testing instructions
 make lint                   # Lint all formula files
@@ -171,19 +170,17 @@ make clean                  # Clean up temporary files
 
 ## Creating a New Release
 
-**Recommended: Use the automated GitHub Actions workflow** for creating new releases. The workflow is triggered automatically via `repository_dispatch` events or can be manually triggered via `workflow_dispatch`.
+Releases are managed via the automated GitHub Actions workflow (`.github/workflows/update-shell-settings.yml`).
 
-### Automated Release (Recommended)
+### Release Process
 
-The `.github/workflows/update-shell-settings.yml` workflow handles the complete release process:
-
-1. Manually trigger the workflow from GitHub Actions tab:
+1. **Manually trigger the workflow** from GitHub Actions tab:
    - Go to Actions → Update shell-settings formula
    - Click "Run workflow"
    - Provide the release tag (e.g., `v20250309.abc1234`)
    - Provide the version string (e.g., `20250309.abc1234`)
 
-2. Or trigger via `repository_dispatch` from another repository:
+2. **Or trigger via `repository_dispatch`** from another repository:
    - The workflow automatically updates the formula when new releases are published
 
 The workflow will:
@@ -191,27 +188,3 @@ The workflow will:
 2. Calculate the SHA256 hash
 3. Update the formula with the new version, URL, and SHA256
 4. Commit and push the changes automatically
-
-### Manual Release (Deprecated)
-
-> **⚠️ DEPRECATED:** The manual release script is deprecated and will be removed in a future version. Please use the GitHub Actions workflow above instead.
-
-<details>
-<summary>Legacy manual release instructions (not recommended)</summary>
-
-```bash
-# Release a new version (e.g., 2.0.0)
-./release-shell-settings.sh 2.0.0
-
-# Or use Make:
-make release-shell-settings SHELL_SETTINGS_VERSION=2.0.0
-```
-
-This script will:
-1. Create and push a git tag in the source repository
-2. Create a GitHub release
-3. Calculate the SHA256 of the release tarball
-4. Update the formula with the new version and SHA256
-5. Commit and push the changes
-
-</details>

@@ -44,7 +44,7 @@ done
 
 # Test 2: Shell script syntax
 print_header "Test 2: Shell Script Syntax"
-for script in install.sh release-shell-settings.sh; do
+for script in install.sh; do
     if bash -n "$script"; then
         print_success "$script syntax valid"
     else
@@ -95,7 +95,7 @@ print_header "Test 5: ShellCheck Analysis (Optional)"
 if command -v shellcheck &> /dev/null; then
     print_info "Running shellcheck..."
 
-    for script in install.sh release-shell-settings.sh; do
+    for script in install.sh; do
         if shellcheck -e SC2312 "$script" > /dev/null 2>&1; then
             print_success "$script passed shellcheck"
         else
@@ -125,7 +125,7 @@ fi
 
 # Test 7: File permissions
 print_header "Test 7: File Permissions"
-for script in install.sh release-shell-settings.sh; do
+for script in install.sh; do
     if [ -x "$script" ]; then
         print_success "$script is executable"
     else
