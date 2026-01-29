@@ -42,6 +42,7 @@ class Glab < Formula
         - Cookie-based authentication (--cookie-file flag)
         - Support for #HttpOnly_ cookies in Netscape cookie files
         - Multi-domain cookie loading for SAML redirect flows
+        - SSO domain consent configuration
 
       Usage:
         # Configure with cookie file for IdP/SSO protected GitLab
